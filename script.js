@@ -53,19 +53,28 @@ const posts = [
 ]
 
 Vue.createApp({
-  beforeCreate() {},
-  created() {},
+  beforeCreate() {
+    console.log('beforeCreate ' + this.name)
+  },
+  created() {
+    this.getPosts()
+  },
   data() {
     return {
       name: 'Daniel',
       links,
-      posts,
+      posts: [],
       darkModeSet: true,
     }
   },
   methods: {
     toggleDarkMode() {
       this.darkModeSet = !this.darkModeSet
+    },
+    async getPosts() {
+      let response = await fetch('https://jsonplaceholder.typicode.com/posts')
+      let data = await response.json()
+      this.posts = data
     },
   },
 }).mount('body')
