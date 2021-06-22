@@ -13,16 +13,7 @@
   </head>
   <body>
     <div :class="{dark: darkModeSet}">
-      <header>
-        <h1>{{ name }}'s Portfolio</h1>
-        <nav>
-          <ul>
-            <li v-for="link in links" :key="link.id">
-              <a :href="link.url"> {{ link.name }} </a>
-            </li>
-          </ul>
-        </nav>
-      </header>
+      <app-header></app-header>
       <main>
         <div class="blog_wrapper">
           <button @click="toggleDarkMode">
@@ -30,11 +21,11 @@
           </button>
           <!-- BLOG SECTION -->
           <section id="blog">
-            <article v-for="post in posts" :key="post.id">
-              <h3>{{ post.title }}</h3>
-              <p v-html="post.body"></p>
-              <p class="read_more">Read More</p>
-            </article>
+            <blog-post
+              v-for="post in posts"
+              :key="post.id"
+              :post="post"
+            ></blog-post>
           </section>
         </div>
       </main>
