@@ -52,7 +52,7 @@ const posts = [
   },
 ]
 
-Vue.createApp({
+const app = Vue.createApp({
   beforeCreate() {
     console.log('beforeCreate ' + this.name)
   },
@@ -61,8 +61,6 @@ Vue.createApp({
   },
   data() {
     return {
-      name: 'Daniel',
-      links,
       posts: [],
       darkModeSet: true,
     }
@@ -77,4 +75,34 @@ Vue.createApp({
       this.posts = data
     },
   },
-}).mount('body')
+})
+
+app.component('app-header', {
+  data() {
+    return {
+      name: 'Daniel',
+      links,
+    }
+  },
+  template: `<header>
+                <h1>{{ name }}'s Portfolio</h1>
+                <nav>
+                  <ul>
+                    <li v-for="link in links" :key="link.id">
+                      <a :href="link.url"> {{ link.name }} </a>
+                    </li>
+                  </ul>
+                </nav>
+            </header>`,
+})
+
+app.component('blog-post', {
+  props: ['post'],
+  template: `<article>
+              <h3>{{ post.title }}</h3>
+              <p v-html="post.body"></p>
+              <p class="read_more">Read More</p>
+            </article>`,
+})
+
+app.mount('body')
