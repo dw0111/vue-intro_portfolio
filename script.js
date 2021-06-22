@@ -52,10 +52,36 @@ const posts = [
   },
 ]
 
-const app = Vue.createApp({
-  beforeCreate() {
-    console.log('beforeCreate ' + this.name)
+const appHeader = {
+  data() {
+    return {
+      name: 'Daniel',
+      links,
+    }
   },
+  template: `<header>
+                <h1>{{ name }}'s Portfolio</h1>
+                <nav>
+                  <ul>
+                    <li v-for="link in links" :key="link.id">
+                      <a :href="link.url"> {{ link.name }} </a>
+                    </li>
+                  </ul>
+                </nav>
+            </header>`,
+}
+
+const blogPost = {
+  props: ['post'],
+  template: `<article>
+              <h3>{{ post.title }}</h3>
+              <p v-html="post.body"></p>
+              <p class="read_more">Read More</p>
+            </article>`,
+}
+
+const app = Vue.createApp({
+  components: { 'blog-post': blogPost, 'app-header': appHeader },
   created() {
     this.getPosts()
   },
@@ -77,32 +103,32 @@ const app = Vue.createApp({
   },
 })
 
-app.component('app-header', {
-  data() {
-    return {
-      name: 'Daniel',
-      links,
-    }
-  },
-  template: `<header>
-                <h1>{{ name }}'s Portfolio</h1>
-                <nav>
-                  <ul>
-                    <li v-for="link in links" :key="link.id">
-                      <a :href="link.url"> {{ link.name }} </a>
-                    </li>
-                  </ul>
-                </nav>
-            </header>`,
-})
+// app.component('app-header', {
+//   data() {
+//     return {
+//       name: 'Daniel',
+//       links,
+//     }
+//   },
+//   template: `<header>
+//                 <h1>{{ name }}'s Portfolio</h1>
+//                 <nav>
+//                   <ul>
+//                     <li v-for="link in links" :key="link.id">
+//                       <a :href="link.url"> {{ link.name }} </a>
+//                     </li>
+//                   </ul>
+//                 </nav>
+//             </header>`,
+// })
 
-app.component('blog-post', {
-  props: ['post'],
-  template: `<article>
-              <h3>{{ post.title }}</h3>
-              <p v-html="post.body"></p>
-              <p class="read_more">Read More</p>
-            </article>`,
-})
+// app.component('blog-post', {
+//   props: ['post'],
+//   template: `<article>
+//               <h3>{{ post.title }}</h3>
+//               <p v-html="post.body"></p>
+//               <p class="read_more">Read More</p>
+//             </article>`,
+// })
 
 app.mount('body')
